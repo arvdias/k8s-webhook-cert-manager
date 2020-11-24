@@ -1,5 +1,5 @@
-DOCKER_IMAGE_NAME=newrelic/k8s-webhook-cert-manager
-DOCKER_IMAGE_TAG=latest
+DOCKER_IMAGE_NAME?=newrelic/k8s-webhook-cert-manager
+DOCKER_IMAGE_TAG?=latest
 
 .PHONY: all
 all: build
