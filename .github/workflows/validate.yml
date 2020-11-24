@@ -32,10 +32,12 @@ jobs:
       #     curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube_latest_amd64.deb
       #     dpkg -i minikube_latest_amd64.deb
       - name: test
-        run: sudo ./e2e-tests/tests.sh
+        run: ./e2e-tests/tests.sh
         env:
             E2E_KUBERNETES_VERSION: ${{ matrix.k8s_version }}
             E2E_SETUP_MINIKUBE: true
             E2E_SETUP_KUBECTL: true
             E2E_START_MINIKUBE: true
+            E2E_MINIKUBE_DRIVER: docker
+            E2E_SUDO: sudo
 
