@@ -23,14 +23,6 @@ jobs:
         k8s_version: [v1.16.0, v1.17.0, v1.18.0, v1.19.0]
     steps:
       - uses: actions/checkout@v2
-      - name: Install Go
-        uses: actions/setup-go@v2
-        with:
-          go-version: '^1.14.4'
-      # - name: Install minikube
-      #   run: |
-      #     curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube_latest_amd64.deb
-      #     dpkg -i minikube_latest_amd64.deb
       - name: test
         run: ./e2e-tests/tests.sh
         env:
