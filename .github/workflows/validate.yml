@@ -10,8 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Install shellcheck
-        run: apt-get update && apt-get install shellcheck
+      # - name: Install shellcheck
+      #   run: sudo apt-get update && apt-get install shellcheck
       - name: Lint
         run: make lint
   e2e-test:
