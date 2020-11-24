@@ -63,7 +63,7 @@ spec:
       - name: metadata-cert-setup
         # This is a minimal kubectl image based on Alpine Linux that signs certificates using the k8s extension api server
         image: newrelic/k8s-webhook-cert-manager:latest
-        imagePullPolicy: Never
+        imagePullPolicy: IfNotPresent
         command: ["./generate_certificate.sh"]
         args:
           - "--service"
