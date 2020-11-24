@@ -22,7 +22,7 @@ setup_kubectl() {
 }
 
 start_minikube() {
-    $E2E_SUDO minikube start --driver="$E2E_MINIKUBE_DRIVER" --kubernetes-version="$E2E_KUBERNETES_VERSION" --logtostderr
+    minikube start --driver="$E2E_MINIKUBE_DRIVER" --kubernetes-version="$E2E_KUBERNETES_VERSION" --logtostderr
 }
 
 get_pod_name_by_label() {
