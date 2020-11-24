@@ -6,7 +6,7 @@ E2E_MINIKUBE_VERSION=${E2E_E2E_MINIKUBE_VERSION:-latest}
 E2E_SETUP_MINIKUBE=${E2E_SETUP_MINIKUBE:-}
 E2E_SETUP_KUBECTL=${E2E_SETUP_KUBECTL:-}
 E2E_START_MINIKUBE=${E2E_START_MINIKUBE:-}
-E2E_MINIKUBE_DRIVER=${E2E_MINIKUBE_DRIVER:-virtualbox}
+E2E_MINIKUBE_DRIVER=${E2E_MINIKUBE_DRIVER:-docker}
 E2E_SUDO=${E2E_SUDO:-}
 
 setup_minikube() {
@@ -22,7 +22,7 @@ setup_kubectl() {
 }
 
 start_minikube() {
-    $E2E_SUDO minikube start --driver="$E2E_MINIKUBE_DRIVER" --kubernetes-version="$E2E_KUBERNETES_VERSION" --logtostderr
+    minikube start --driver="$E2E_MINIKUBE_DRIVER" --kubernetes-version="$E2E_KUBERNETES_VERSION" --logtostderr
 }
 
 get_pod_name_by_label() {

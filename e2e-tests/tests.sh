@@ -23,7 +23,8 @@ finish() {
 trap finish EXIT
 
 kubectl create -f manifests/webhook.yaml
-awk '/image: / { print; print "        imagePullPolicy: Never"; next }1' manifests/cert-manager-job.yaml | kubectl create -f -
+#awk '/image: / { print; print "        imagePullPolicy: Never"; next }1' manifests/cert-manager-job.yaml | 
+kubectl create -f manifests/cert-manager-job.yaml
 
 label="job-name=${JOB_NAME}"
 job_pod_name=$(get_pod_name_by_label "$label")
