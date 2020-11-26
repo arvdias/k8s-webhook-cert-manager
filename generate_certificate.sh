@@ -75,7 +75,7 @@ if [ ! -x "$(command -v openssl)" ]; then
   exit 1
 fi
 
-csrName=${service}.${namespace}
+
 tmpdir=$(mktemp -d)
 echo "creating certs in tmpdir ${tmpdir} "
 
@@ -98,6 +98,8 @@ EOF
 openssl genrsa -out "${tmpdir}/server-key.pem" 2048
 openssl req -new -key "${tmpdir}/server-key.pem" -subj "/CN=${fullServiceDomain}" -out "${tmpdir}/server.csr" -config "${tmpdir}/csr.conf"
 
+csrName=${service}.${namespace}
+echo "creating csr: ${csrName} "
 set +e
 # clean-up any previously created CSR for our service. Ignore errors if not present.
 if kubectl delete csr "${csrName}"; then
@@ -119,6 +121,7 @@ spec:
   - digital signature
   - key encipherment
   - server auth
+  signerName: kubernetes.io/kube-apiserver-client
 EOF
 
 set +e

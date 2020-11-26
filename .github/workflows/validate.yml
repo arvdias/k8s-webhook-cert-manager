@@ -10,8 +10,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      # - name: Install shellcheck
-      #   run:  apt-get update && apt-get install shellcheck
       - name: Lint
         run: make lint
   e2e-test:
@@ -20,17 +18,25 @@ jobs:
     needs: [lint]
     strategy: 
       matrix:
-        k8s_version: [v1.16.0, v1.17.0, v1.18.0, v1.19.0]
+        k8s_version: [v1.16.15, v1.17.14, v1.18.12, v1.19.3]
     steps:
       - uses: actions/checkout@v2
-      - name: test
-        run: ./e2e-tests/tests.sh
+      - name: Set outputs
+        id: vars
+        run: echo "::set-output name=sha_short::$(git rev-parse --short $GITHUB_SHA)"
+      - name: Check outputs
+        run: echo ${{ steps.vars.outputs.sha_short }}
+      - uses: manusa/actions-setup-minikube@v2.0.1
+        with:
+          minikube version: v1.15.1
+          kubernetes version: ${{ matrix.k8s_version }}
+          driver: docker
+      - name: Run e2e test
+        run: |
+          # make minikube use local docker registry
+          eval $(minikube -p minikube docker-env)
+          
+          make e2e-test
         env:
-            E2E_KUBERNETES_VERSION: ${{ matrix.k8s_version }}
-            E2E_SETUP_MINIKUBE: true
-            E2E_SETUP_KUBECTL: true
-            E2E_MINIKUBE_VERSION: 1.15.1
-            E2E_START_MINIKUBE: true
-            E2E_MINIKUBE_DRIVER: docker
-            E2E_SUDO: sudo
-
+          #COMMIT_SHA: ${{ env.GITHUB_SHA }}
+          DOCKER_IMAGE_TAG: ${{ steps.vars.outputs.sha_short }}

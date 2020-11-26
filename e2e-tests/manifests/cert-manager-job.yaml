@@ -21,8 +21,11 @@ rules:
     resources: ["certificatesigningrequests"]
     verbs: ["create", "get", "delete"]
   - apiGroups: ["certificates.k8s.io"]
-    resources: ["certificatesigningrequests/approval"]
-    verbs: ["update"]
+    resources: 
+      - "certificatesigningrequests"
+      - "certificatesigningrequests/approval"
+      - "certificatesigningrequests/status"
+    verbs: ["update"]    
   - apiGroups: [""]
     resources: ["secrets"]
     verbs: ["create", "get", "patch"]
@@ -62,8 +65,8 @@ spec:
       containers:
       - name: metadata-cert-setup
         # This is a minimal kubectl image based on Alpine Linux that signs certificates using the k8s extension api server
+        # Use the commit hash so we always use the image we built
         image: newrelic/k8s-webhook-cert-manager:latest
-        imagePullPolicy: IfNotPresent
         command: ["./generate_certificate.sh"]
         args:
           - "--service"
